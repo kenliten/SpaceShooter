@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A simple Space Shooter",
   "scripts": {
-    "serve": "http-server -i -d -c-1 ./"
+    "start": "http-server -i -d -c-1 ./"
   },
   "repository": {
     "type": "git",
