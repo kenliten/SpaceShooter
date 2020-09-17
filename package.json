@@ -1,0 +1,21 @@
+{
+  "name": "space-shooter",
+  "version": "1.0.0",
+  "description": "A simple Space Shooter",
+  "scripts": {
+    "serve": "http-server -i -d -c-1 ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenliten/SpaceShooter.git"
+  },
+  "author": "kenliten",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/kenliten/SpaceShooter/issues"
+  },
+  "homepage": "https://github.com/kenliten/SpaceShooter#readme",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
