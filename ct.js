@@ -2991,20 +2991,20 @@ ct.rooms.beforeDraw = function beforeDraw() {
     
 };
 ct.rooms.afterDraw = function afterDraw() {
-    /* global ct */
-
-ct.keyboard.clear();
-if (ct.sound.follow && !ct.sound.follow.kill) {
-    ct.sound.howler.pos(ct.sound.follow.x, ct.sound.follow.y, ct.sound.useDepth ? ct.sound.follow.z : 0);
-} else if (ct.sound.manageListenerPosition) {
-    ct.sound.howler.pos(ct.camera.x, ct.camera.y, ct.camera.z || 0);
-}
-ct.mouse.xprev = ct.mouse.x;
+    ct.mouse.xprev = ct.mouse.x;
 ct.mouse.yprev = ct.mouse.y;
 ct.mouse.xuiprev = ct.mouse.xui;
 ct.mouse.yuiprev = ct.mouse.yui;
 ct.mouse.pressed = ct.mouse.released = false;
 ct.inputs.registry['mouse.Wheel'] = 0;
+if (ct.sound.follow && !ct.sound.follow.kill) {
+    ct.sound.howler.pos(ct.sound.follow.x, ct.sound.follow.y, ct.sound.useDepth ? ct.sound.follow.z : 0);
+} else if (ct.sound.manageListenerPosition) {
+    ct.sound.howler.pos(ct.camera.x, ct.camera.y, ct.camera.z || 0);
+}
+/* global ct */
+
+ct.keyboard.clear();
 
 };
 
@@ -3020,13 +3020,16 @@ ct.rooms.templates['MainRoom'] = {
     backgroundColor: '#000000',
     onStep() {
         this.asteroidTimer -= ct.delta;
-this.lapse++;
+
+if (this.lapse <= 5000){
+    this.lapse++;
+}
 
 if (this.asteroidTimer <= 0){
     if (this.lapse < 1000){
         this.asteroidTimer = ct.random.range(60, 300);
     }
-    if (this.lapse > 100){
+    if (this.lapse > 1000){
         this.asteroidTimer = ct.random.range(50, 250);
     }
     if (this.lapse > 2000){
@@ -3049,7 +3052,7 @@ if (this.enemyTimer <= 0){
     if (this.lapse < 1000){
         this.enemyTimer = ct.random.range(60, 300);
     }
-    if (this.lapse > 100){
+    if (this.lapse > 1000){
         this.enemyTimer = ct.random.range(50, 250);
     }
     if (this.lapse > 2000){
@@ -3070,22 +3073,22 @@ if (this.enemyTimer <= 0){
 this.powerTimer -= ct.delta;
 if (this.powerTimer <= 0){
     if (this.lapse < 1000){
-        this.powerTimer = ct.random.range(20, 100);
+        this.powerTimer = 240;
     }
-    if (this.lapse > 100){
-        this.powerTimer = ct.random.range(30, 150);
+    if (this.lapse > 1000){
+        this.powerTimer = 480;
     }
     if (this.lapse > 2000){
-        this.powerTimer = ct.random.range(40, 200);
+        this.powerTimer = 720;
     }
     if (this.lapse > 3000){
-        this.powerTimer = ct.random.range(50, 250);
+        this.powerTimer = 960;
     }
     if (this.lapse > 4000){
-        this.powerTimer = ct.random.range(60, 300);
+        this.powerTimer = 1024;
     }
     if (this.lapse > 5000){
-        this.powerTimer = 300;
+        this.powerTimer = 1300;
     }
     this.powerTimer = ct.random.range(180, 400);
     ct.types.copy('PowerUp', ct.random(ct.camera.width), -100);
@@ -3103,6 +3106,8 @@ this.livesLabel.text = 'Lives: ' + this.lives;
 this.enemyTimer = 180;
 this.powerTimer = 640;
 this.lapse = 0;
+ct.sound.load('Background');
+ct.sound.resume('Background');
 
 this.score = 0;
 
@@ -3115,7 +3120,7 @@ this.scoreLabel.depth = 1000;
 this.lives = 3;
 this.livesLabel = new PIXI.Text('Lives: ' + this.lives, ct.styles.get('LivesStyle'));
 this.addChild(this.livesLabel);
-this.livesLabel.x = ct.camera.width - 200;
+this.livesLabel.x = ct.camera.width - 150;
 this.livesLabel.y = 30;
 this.livesLabel.depth = 1000;
 
@@ -3166,7 +3171,7 @@ ct.styles.new(
     "fontSize": 22,
     "fontStyle": "italic",
     "fontWeight": "800",
-    "align": "left",
+    "align": "right",
     "lineJoin": "round",
     "lineHeight": 29.700000000000003,
     "fill": "#B71C1C"
@@ -3198,7 +3203,7 @@ ct.styles.new(
      */
     ct.res = {
         soundsLoaded: 0,
-        soundsTotal: [0][0],
+        soundsTotal: [1][0],
         soundsError: 0,
         sounds: {},
         registry: [{"playerShip1_blue":{"frames":1,"shape":{"type":"strip","points":[{"x":1.4285714285714286,"y":-36.392857142857146},{"x":7.964285714285718,"y":-35.57142857142857},{"x":11.535714285714292,"y":-11.107142857142854},{"x":36.53571428571429,"y":4.071428571428571},{"x":42.07142857142858,"y":0.3214285714285747},{"x":45.10714285714286,"y":-5.392857142857142},{"x":49.142857142857146,"y":-5.2142857142857135},{"x":49.392857142857146,"y":9.250000000000002},{"x":46.35714285714286,"y":24.607142857142865},{"x":44.21428571428572,"y":24.78571428571429},{"x":42.25,"y":20.67857142857143},{"x":37.035714285714285,"y":23.392857142857142},{"x":13.678571428571438,"y":27.46428571428572},{"x":7.071428571428573,"y":36.92857142857144},{"x":-5.785714285714283,"y":36.75000000000001},{"x":-12.392857142857142,"y":28.000000000000004},{"x":-35.42857142857142,"y":23.000000000000004},{"x":-41.14285714285714,"y":19.785714285714292},{"x":-42.39285714285714,"y":24.785714285714292},{"x":-45.42857142857143,"y":24.464285714285715},{"x":-47.75,"y":9.964285714285717},{"x":-47.392857142857146,"y":-4.678571428571428},{"x":-43.785714285714285,"y":-4.32142857142857},{"x":-41.67857142857143,"y":1.0357142857142847},{"x":-36.67857142857143,"y":3.7142857142857144},{"x":-11.250000000000002,"y":-10.607142857142856},{"x":-6.949740723605572,"y":-36.01045882668077}],"closedStrip":true},"anchor":{"x":0.494949494949495,"y":0.49333333333333335}},"laserBlue01":{"frames":1,"shape":{"type":"rect","top":27,"bottom":27,"left":4,"right":5},"anchor":{"x":0.4444444444444444,"y":0.5}},"laserRed09":{"frames":1,"shape":{"type":"circle","r":23},"anchor":{"x":0.5,"y":0.5}},"enemyRed1":{"frames":1,"shape":{"type":"strip","points":[{"x":-8.793103448275863,"y":-23.72413793103448},{"x":9.689655172413797,"y":-23.724137931034484},{"x":11.758620689655173,"y":-33.03448275862069},{"x":29.517241379310356,"y":-40.79310344827586},{"x":46.58620689655172,"y":-15.93103448275862},{"x":23.89655172413793,"y":41.758620689655174},{"x":12.448275862068968,"y":36.44827586206897},{"x":19.689655172413797,"y":10.06896551724138},{"x":15.034482758620694,"y":9.896551724137936},{"x":11.413793103448281,"y":15.068965517241384},{"x":-11.172413793103447,"y":15.06896551724138},{"x":-14.44827586206896,"y":8.3448275862069},{"x":-18.58620689655172,"y":10.931034482758626},{"x":-11.344827586206893,"y":35.758620689655174},{"x":-23.724137931034484,"y":41.41379310344828},{"x":-46.241379310344826,"y":-15.068965517241379},{"x":-28.241379310344826,"y":-41.48275862068965},{"x":-10.482758620689653,"y":-32.3448275862069}],"closedStrip":true},"anchor":{"x":0.4946236559139785,"y":0.5}},"meteorGrey_big1":{"frames":1,"shape":{"type":"strip","points":[{"x":23.225806451612904,"y":-41.83870967741935},{"x":50.41935483870968,"y":-1.7096774193548399},{"x":34.83870967741936,"y":32.354838709677416},{"x":10.161290322580644,"y":28.67741935483871},{"x":-21.29032258064516,"y":41.41935483870968},{"x":-49.83870967741936,"y":10.258064516129034},{"x":-32.516129032258064,"y":-41.225806451612904}],"closedStrip":true},"anchor":{"x":0.49504950495049505,"y":0.5}},"meteorGrey_med1":{"frames":1,"shape":{"type":"strip","points":[{"x":17.777777777777775,"y":-18.48148148148148},{"x":21.48148148148148,"y":7.722222222222221},{"x":0.6851851851851851,"y":21.62962962962963},{"x":-14.203703703703704,"y":15.24074074074074},{"x":-20.925925925925927,"y":-2.833333333333334},{"x":-8.5,"y":-20.62962962962963}],"closedStrip":true},"anchor":{"x":0.4883720930232558,"y":0.4883720930232558}},"purple":{"atlas":"./img/t0.png","frames":0,"shape":{"type":"rect","top":0,"bottom":256,"left":0,"right":256},"anchor":{"x":0,"y":0}},"powerupGreen_bolt":{"frames":1,"shape":{"type":"strip","points":[{"x":11.465517241379311,"y":-15.620689655172413},{"x":14.379310344827589,"y":-13.327586206896552},{"x":16.603448275862068,"y":-10.689655172413794},{"x":16.46551724137931,"y":10.068965517241379},{"x":14.63793103448276,"y":14.431034482758621},{"x":11.448275862068968,"y":16.672413793103452},{"x":-11.224137931034484,"y":16.758620689655174},{"x":-14.758620689655173,"y":14.948275862068968},{"x":-16.810344827586206,"y":11.620689655172413},{"x":-16.56896551724138,"y":-9.793103448275861},{"x":-14.931034482758621,"y":-13.241379310344827},{"x":-11.775862068965518,"y":-15.689655172413794}],"closedStrip":true},"anchor":{"x":0.5,"y":0.48484848484848486}}}][0],
@@ -3853,7 +3858,7 @@ var collided = ct.place.meet(this, this.x, this.y, 'PowerUp');
 
 if (collided){
     collided.kill = true;
-    ct.room.lives += 2;
+    ct.room.lives += 1;
 }
 
     },
@@ -4629,6 +4634,14 @@ if (!ct.sound) {
 }
 
 
+ct.sound.init('Background', {
+    wav: false,
+    mp3: './snd/12ed211d-3d60-4e70-a65b-cf97e9f88d15.mp3',
+    ogg: false
+}, {
+    poolSize: 5,
+    music: true
+});
 (function timerAddon() {
     const ctTimerTime = Symbol('time');
     const ctTimerRoomName = Symbol('roomName');
